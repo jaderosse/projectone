@@ -9,15 +9,23 @@
 	<h1>Warboats!</h1>
 	<h3>Opponent's Board - Attack!</h3>
 	<div id="opponent-board">
-		<!-- this is where you'll click and guess  -->
+		<div id="op-ship">
+			<p>Ship</p>
+		</div>
 	</div>
+	<button id="rando">Randomize</button>
 	<h3>Your Board - Look out!</h3>
 	<div id="player-board">
-		<!-- this is where your ships are/where opponent guess shows up -->	
-	</div>
-	<div class="draggable">
+		<div id ="ship" class="draggable">
 			<p>I am a ship</p>
 		</div>
+		<div id="big-ship" class="draggable">
+			<p>I am big ship</p>
+		</div>
+		<div id="small-ship" class="draggable">
+			<p>I am small ship</p>
+		</div>
+	</div>
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script type="text/javascript" src="script.js"></script>

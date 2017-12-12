@@ -20,8 +20,23 @@ div {
 	height:50px;
 }
 
-.draggable {
+#ship {
 	background-color: blue;
+	height: 50px;
+	width: 150px;
+}
+#big-ship {
+	background-color: blue;
+	height: 50px;
+	width: 200px;
+}
+#small-ship {
+	background-color: blue;
+	height: 50px;
+	width: 100px;
+}
+#op-ship {
+	background-color: brown;
 	height: 50px;
 	width: 150px;
 }
