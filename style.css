@@ -1,14 +1,15 @@
 body {
 	text-align: center;
 }
-#opponent-board {
+#opponent-board, 
+#player-board {
 	position: relative;
 	margin: 0 auto;
-	width: 500px;
-	height: 500px;
+	width: 400px;
+	height: 400px;
 }
 
-#opponent-board div {
+div {
 	position: absolute;
 	-webkit-box-sizing: border-box; /* Safari 3.0 - 5.0, Chrome 1 - 9, Android 2.1 - 3.x */
 	-moz-box-sizing: border-box;    /* Firefox 1 - 28 */
@@ -17,4 +18,10 @@ body {
 	border: 1px solid #ddd;
 	width:50px;
 	height:50px;
+}
+
+.draggable {
+	background-color: blue;
+	height: 50px;
+	width: 150px;
 }
