@@ -1,4 +1,6 @@
 //creating opponent/player's scoreboard first
+
+
 var opRows = 8;
 var opColumns = 8;
 var cellSize = 50;
@@ -31,7 +33,7 @@ var cellSize = 50;
 var playerHits = 0;
 
 var playerBoardContainer = document.getElementById("player-board");
-var randomShip = document.getElementById("op-ship");
+var randomShip = document.getElementsByClassName("bad-ship");
 var rando = document.getElementById("rando");
 
 for(var i = 0; i < playerRows; i++){
@@ -61,12 +63,12 @@ function cellClicked(e){
 		var row = e.target.id.substring(1, 2);
 		var col = e.target.id.substring(2, 3);
 		// console.log(row, col);
-		if(row === "" && col === ""){
+		if(e.target.classList.contains("filled")){
 			console.log("hit ya bitch");
-
+			// e.target.innerHTML="<img src=./explosion.jpg>";
 		} else {
 			console.log("missed you");
-			// this.style.backgroundColor = "red";
+			// e.target.style.background = "green";
 		}
 
 	}
@@ -75,10 +77,22 @@ function cellClicked(e){
 
 var random = rando.addEventListener("click", randomize);
 function randomize(){
-	randomShip.style.transform = "translate" + "("+Math.floor(Math.random()*6)*50 + 'px' + "," + Math.floor(Math.random()*6)*50 + 'px' +")"
-
-	// console.log("translate" + "("+Math.floor(Math.random()*6)*50 + 'px' + "," + Math.floor(Math.random()*6)*50 + 'px' +")");
+	// for(var i = 0; i < randomShip.length; i++){
+		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*7)+0) + (Math.floor(Math.random()*7)+0));
+		startingPoint.className += "filled";
+		// console.log(startingPoint.id.slice(-2));
+		var stringNum = startingPoint.id.slice(-2);
+		console.log(startingPoint);
+		// console.log("next is" + "c" + (parseInt(stringNum)+01));
+		var nextShip = document.getElementById("c"+(parseInt(stringNum)+01));
+		nextShip.className += "filled";
 }
+
+///////you need to grab the id from starting point. (startingPoint.id). Then you need to grab last two
+///////letters from the string, convert those into integers and then add 1 for vertical bidness
+///////then add your filled class to the div with your new id.
+
+
 
 //DRAGGABILITY - need to figure out how to detect if cell is occupied
 //be able to turn vertical on click

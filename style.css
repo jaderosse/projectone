@@ -35,8 +35,20 @@ div {
 	height: 50px;
 	width: 100px;
 }
-#op-ship {
+/*#op-ship {
 	background-color: brown;
 	height: 50px;
-	width: 150px;
+	width: 50px;
+}*/
+/*#big-op-ship{
+	background-color: brown;
+	height: 50px;
+	width: 200px;
+}*/
+.bad-ship {
+	opacity: 0.5;
+}
+img {
+	height: 50px;
+	width: 50px;
 }
