@@ -33,8 +33,8 @@ var cellSize = 50;
 var playerHits = 0;
 
 var playerBoardContainer = document.getElementById("player-board");
-var randomShip = document.getElementsByClassName("bad-ship");
-var rando = document.getElementById("rando");
+var randomButton = document.getElementById("rando");
+var opposerShips = [1, 2, 3];
 
 for(var i = 0; i < playerRows; i++){
 	for(var j = 0; j < playerColumns; j++){
@@ -52,72 +52,76 @@ for(var i = 0; i < playerRows; i++){
 }
 
 
-
-
+var beginGame = function(){
 
 var addClick = opponentBoardContainer.addEventListener("click", cellClicked);
-var aiClick = playerBoardContainer.addEventListener("click", cellClicked);
+// var aiClick = playerBoardContainer.addEventListener("click", cellClicked);
 
 function cellClicked(e){
 	if(e.target !== e.currentTarget){
 		var row = e.target.id.substring(1, 2);
 		var col = e.target.id.substring(2, 3);
 		// console.log(row, col);
-		if(e.target.classList.contains("filled")){
+		if(e.target.classList.contains(" filled")){
 			console.log("hit ya bitch");
-			// e.target.innerHTML="<img src=./explosion.jpg>";
+			e.target.style.background = "red";
 		} else {
 			console.log("missed you");
-			// e.target.style.background = "green";
+			e.target.style.background = "green";
 		}
 
 	}
 	e.stopPropagation();
 };
+}
 
-var random = rando.addEventListener("click", randomize);
+
+var random = randomButton.addEventListener("click", randomize);
 function randomize(){
-	// for(var i = 0; i < randomShip.length; i++){
+	for(var i = 0; i < opposerShips.length; i++){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*7)+0) + (Math.floor(Math.random()*7)+0));
-		startingPoint.className += "filled";
-		// console.log(startingPoint.id.slice(-2));
+		startingPoint.className += " filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
-		// console.log("next is" + "c" + (parseInt(stringNum)+01));
-		var nextShip = document.getElementById("c"+(parseInt(stringNum)+01));
-		nextShip.className += "filled";
+		// if/else statement to alternate or randomize
+		var vert = document.getElementById("c"+(parseInt(stringNum)+01));
+		vert.className += " filled";
+		console.log("vertical");
+		// var hor = document.getElementById("c"+(parseInt(stringNum)+10));
+		// hor.className += "filled";
+		// console.log("horizont");
+	}
 }
 
-///////you need to grab the id from starting point. (startingPoint.id). Then you need to grab last two
-///////letters from the string, convert those into integers and then add 1 for vertical bidness
-///////then add your filled class to the div with your new id.
 
 
+//SELECT SHIP POSITION
 
-//DRAGGABILITY - need to figure out how to detect if cell is occupied
-//be able to turn vertical on click
-
-$(function(){
-  $('.draggable').draggable({
-    containment: 'parent',
-    cursor: 'move',
-    revert: true
-  });
+$(".cells").hover(function(){
+	$(this).css("background-color", "yellow");
+}, function(){
+	$(this).css("background-color", "transparent");
 });
 
-$(function() {
-  $('.cells').droppable({
-    drop: handleDrop
-  });
-});
-
-function handleDrop( event, ui ) {
-  ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
-  ui.draggable.draggable( 'option', 'revert', false );
+var playerCells = document.querySelectorAll(".cells");
+function selectForShip(){
+	for(var i = 0; i < playerCells.length; i++){
+		playerCells[i].addEventListener("click", createShip)
+			function createShip(){
+			console.log("clicked here");
+			$(this).css("background-color", "blue");
+			$(this).unbind("mouseenter mouseleave");
+			this.className += " filled";
+			var stringNum = this.id.slice(-2);
+			console.log(stringNum);
+			var vert = document.getElementById("s"+(parseInt(stringNum)+01));
+			vert.className += " filled";
+			vert.style.backgroundColor = "blue";
+			$(vert).unbind("mouseenter mouseleave");
+		};	
+	}
 }
 
-//double click ship div to turn vertical
-// var vertical = 
-// $(".draggable").keypress(function(){
-// 	console.log("verticalized!");
-// })
+selectForShip();
+
+
