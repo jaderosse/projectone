@@ -1,6 +1,7 @@
 //creating opponent/player's scoreboard first
 document.addEventListener("DOMContentLoaded", function(event) { 
-
+var compHits = 0;
+var playerHits = 0;
 
 var opRows = 8;
 var opColumns = 8;
@@ -48,14 +49,14 @@ for(var i = 0; i < playerRows; i++){
 	}
 }
 
-turn = 0;
+// turn = 0;
 
-function cellClicked(e){
-	turn += 1;
-	if(turn % 2 === 1){
-		console.log(compGuess, "is comp guess");
-		startComp();
-	}
+function compCellClicked(e){
+	console.log(e);
+	// turn += 1;
+	// console.log("turn number", turn);
+	// if(turn % 2 === 1){
+	// }
 	if(e.target !== e.currentTarget){
 		var row = e.target.id.substring(1, 2);
 		var col = e.target.id.substring(2, 3);
@@ -63,6 +64,33 @@ function cellClicked(e){
 		if(e.target.classList.contains("filled")){
 			console.log("hit ya bitch");
 			e.target.style.background = "red";
+			playerHits += 1;
+		} else {
+			console.log("missed you step 1");
+			e.target.style.background = "green";
+		}
+
+	}
+	e.stopPropagation();
+	console.log("now comp's turn step 2");
+	compGuess();
+};
+
+function playerCellClicked(e){
+	console.log(e);
+	// turn += 1;
+	// console.log("turn number ", turn);
+	// if(turn % 2 === 0){
+	console.log("player cell has been clicked step 4");	
+	// }
+	if(e.target !== e.currentTarget){
+		var row = e.target.id.substring(1, 2);
+		var col = e.target.id.substring(2, 3);
+		// console.log(row, col);
+		if(e.target.classList.contains("filled")){
+			console.log("hit ya bitch");
+			e.target.style.background = "red";
+			compHits += 1;
 		} else {
 			console.log("missed you");
 			e.target.style.background = "green";
@@ -71,12 +99,6 @@ function cellClicked(e){
 	}
 	e.stopPropagation();
 };
-
-// var shipSizes = [
-// {name: small, size: 2},
-// {name: medium, size: 3},
-// {name: large, size: 4}
-// ]
 
 var opposerShips = [1, 2, 3];
 var random = randomButton.addEventListener("click", randomize);
@@ -87,13 +109,14 @@ function randomize(){
 		startingPoint.className += " filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
-		// if/else statement to alternate or randomize
+		//if (turn % 2 === 0){
 		var vert = document.getElementById("c"+(parseInt(stringNum)+01));
 		vert.className += " filled";
-		console.log("vertical");
+		//} else {
 		// var hor = document.getElementById("c"+(parseInt(stringNum)+10));
 		// hor.className += "filled";
 		// console.log("horizont");
+		// }
 	}
 }
 
@@ -133,30 +156,29 @@ var removeClicks = function(){
 	console.log(playerShips);
 	for(var i = 0; i < playerCells.length; i++){
 		playerCells[i].removeEventListener("click", createShip)
-	startGame();
+	playerClick();
 	}	
 }
 }
 //FIND OUT WHY COLORS DON'T SHOW UP ON PLAYER BOARD
-var startGame = function(){
-var playerClick = opponentBoardContainer.addEventListener("click", cellClicked);
+
+var playerClick = function(){ opponentBoardContainer.addEventListener("click", compCellClicked);
 }
 
-var guesses = [];
 
-// FIND OUT WHY NOT RANDOMIZING COMP CLICKS
-var startComp = function(){
-var compClick = function(){
-for(var i = 0; i < guesses.length; i++){ 
-compGuess[i].addEventListener("click", cellClicked);
+var compGuess = function() {
+document.getElementById("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
+// playerCellClicked();
+console.log("here's comp guess step 3");
+playerCellClicked();
 }
-}
+
+
 
 $(playerCells).unbind("mouseenter mouseleave");
-}
 
-var compGuess = 
-document.getElementById("s"+(Math.floor(Math.random()*7)+0) + (Math.floor(Math.random()*7)+0));
+
+
 
 
 selectForShip();
