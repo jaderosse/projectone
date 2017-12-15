@@ -90,15 +90,25 @@ function cellClicked(elementId){
 
 var opposerShips = [1, 2, 3];
 
+
+
 function randomize(){
 	for(var i = 0; i < opposerShips.length; i++){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 		startingPoint.className += " filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
-		var vert = document.getElementById("c"+(parseInt(stringNum)+01));
-		vert.className += " filled";
+		var randomOrientation = Math.floor(Math.random()*2)+1;
+		if(randomOrientation % 2 === 0){
+			var vert = document.getElementById("c"+(parseInt(stringNum)+01));
+			vert.className += " filled";
+		} else {
+			var hor = document.getElementById("c"+(parseInt(stringNum)+10));
+			hor.className += " filled";
+		}
+	console.log(randomOrientation);
 	}
+		
 }
 
 
