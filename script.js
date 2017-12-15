@@ -51,7 +51,6 @@ for(var i = 0; i < playerRows; i++){
 function playerClickHandler(e){
 	if (turn % 2 === 0){
 		cellClicked(e.target.id);
-		// console.log(e.target.id);
 	}
 }
 
@@ -63,7 +62,6 @@ function cellClicked(elementId){
 			if(target.classList.contains("filled")){
 			target.style.background = "red";
 			playerHits += 1;
-			// console.log(playerHits);
 			$("#log").text("you got a hit!");
 			target.removeEventListener("click", playerClickHandler);
 		} else {
@@ -97,10 +95,21 @@ function cellClicked(elementId){
 };
 
 
-var opposerShips = [1, 2, 3];
+var ships = [
+{name: "kayak"},
+{name: "kayak"},
+{name: "modest-yacht"},
+// {name: "Edmonds-Kingston-Ferry"}
+];
+
+// if(ships.name === modest-yacht){
+
+// }
 
 var endGame = function(){
-	opponentBoardContainer.removeEventListener("click", playerClickHandler);
+	$("div", "#opponent-board").each(function(){
+		this.removeEventListener("click", playerClickHandler);
+	});
 	$("#log").append("<button id='restart'>New Game?</button>");
 	document.getElementById("restart").addEventListener("click", reset);
 }
@@ -111,8 +120,8 @@ var reset = function(){
 }
 
 function randomize(){
-	for(var i = 0; i < opposerShips.length; i++){
-		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
+	for(var i = 0; i < ships.length; i++){
+		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1));
 		startingPoint.className += " filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
@@ -120,9 +129,19 @@ function randomize(){
 		if(randomOrientation % 2 === 0){
 			var vert = document.getElementById("c"+(parseInt(stringNum)+01));
 			vert.className += " filled";
+				if(ships[i].name === "modest-yacht"){
+					// console.log("modest yacht");
+					var moreVert = document.getElementById("c"+(parseInt(stringNum)+02));
+					moreVert.className += " filled";
+				}
 		} else {
 			var hor = document.getElementById("c"+(parseInt(stringNum)+10));
 			hor.className += " filled";
+					if(ships[i].name === "modest-yacht"){
+					// console.log("modest yacht");
+					var moreHor = document.getElementById("c"+(parseInt(stringNum)+20));
+					moreHor.className += " filled";
+				}
 		}
 		console.log(randomOrientation);
 	}
@@ -151,6 +170,7 @@ function selectForShip(){
 
 var createShip = function(){
 	playerShips += 1;
+	var bigShip = (playerShips === 3);
 	$(this).css("background-color", "blue");
 	$(this).unbind("mouseenter mouseleave");
 	this.className += " filled";
@@ -168,12 +188,24 @@ var createShip = function(){
 		vert.className += " filled";
 		vert.style.backgroundColor = "blue";
 		$(vert).unbind("mouseenter mouseleave");
+		if(bigShip){
+			var moreVert = document.getElementById("s"+(parseInt(stringNum)+2));
+			moreVert.className += " filled";
+			moreVert.style.backgroundColor = "blue";
+			$(moreVert).unbind("mouseenter mouseleave");
+		}
 	}
 	function clickedHor(){
 		var hor = document.getElementById("s"+(parseInt(stringNum)+10));
 		hor.className += " filled";
 		hor.style.backgroundColor = "blue";
 		$(hor).unbind("mouseenter mouseleave");
+		if(bigShip){
+			var moreHor = document.getElementById("s"+(parseInt(stringNum)+20));
+			moreHor.className += " filled";
+			moreHor.style.backgroundColor = "blue";
+			$(moreHor).unbind("mouseenter mouseleave");
+		}
 	}
 	removeClicks();
 }
@@ -183,32 +215,23 @@ var removeClicks = function(){
 		console.log(playerShips);
 		for(var i = 0; i < playerCells.length; i++){
 			playerCells[i].removeEventListener("click", createShip)
-			playerClick();
-
+			playerClick();	
 		}
+		$(playerCells).unbind("mouseenter mouseleave");
 		randomize();
 	}
 }
 
-//REMOVE EVENT HANDLER FOR OP BOARD
 var playerClick = function(){ 
 	$("div", "#opponent-board").each(function(){
 	this.addEventListener("click", playerClickHandler);
 
 });
-	// opponentBoardContainer.addEventListener("click", playerClickHandler);
 }
 
 var compGuess = function() {
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
-
-
-
-$(playerCells).unbind("mouseenter mouseleave");
-
-
-
 
 
 selectForShip();
