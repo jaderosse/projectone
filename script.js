@@ -124,21 +124,42 @@ var playerCells = document.querySelectorAll(".cells");
 
 function selectForShip(){
 	for(var i = 0; i < playerCells.length; i++){
-		playerCells[i].addEventListener("click", createShip)
+		playerCells[i].addEventListener("click", createShip);
 	}
 }
+
+
+
+
 var createShip = function(){
 	playerShips += 1;
 	$(this).css("background-color", "blue");
 	$(this).unbind("mouseenter mouseleave");
 	this.className += " filled";
 	var stringNum = this.id.slice(-2);
-	var vert = document.getElementById("s"+(parseInt(stringNum)+1));
-	vert.className += " filled";
-	vert.style.backgroundColor = "blue";
-	$(vert).unbind("mouseenter mouseleave");
+	//appending buttons to div
+	$("#log").text("how to orient your ship?").append("<button id='H'>horizontal</button>")
+	.append("<button id='V'>vertical</button>");
+	//click events for buttons
+		document.getElementById("V").addEventListener("click", clickedVert);
+		document.getElementById("H").addEventListener("click", clickedHor);
+		
+	function clickedVert(){
+		console.log("ya want vertical");	
+		var vert = document.getElementById("s"+(parseInt(stringNum)+1));
+		vert.className += " filled";
+		vert.style.backgroundColor = "blue";
+		$(vert).unbind("mouseenter mouseleave");
+	}
+	function clickedHor(){
+		var hor = document.getElementById("s"+(parseInt(stringNum)+10));
+		hor.className += " filled";
+		hor.style.backgroundColor = "blue";
+		$(hor).unbind("mouseenter mouseleave");
+	}
 	removeClicks();
 }
+
 var removeClicks = function(){
 	if(playerShips === 3){
 		console.log(playerShips);
@@ -162,6 +183,7 @@ var compGuess = function() {
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
 
+//winning condition
 // var winner = function(){
 // 	if(playerHits === 6){
 // 		alert("you win");
