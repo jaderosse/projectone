@@ -51,7 +51,7 @@ for(var i = 0; i < playerRows; i++){
 function playerClickHandler(e){
 	if (turn % 2 === 0){
 		cellClicked(e.target.id);
-		console.log(e.target.id);
+		// console.log(e.target.id);
 	}
 }
 
@@ -65,9 +65,11 @@ function cellClicked(elementId){
 			playerHits += 1;
 			// console.log(playerHits);
 			$("#log").text("you got a hit!");
+			target.removeEventListener("click", playerClickHandler);
 		} else {
 			target.style.background = "green";
 			$("#log").text("you missed.");
+			target.removeEventListener("click", playerClickHandler);
 		}
 	} else {
 			if(target.classList.contains("filled")){
@@ -79,9 +81,7 @@ function cellClicked(elementId){
 			target.style.background = "green";
 		}
 	}
-//REMOVE EVENT HANDLER FOR OP BOARD
 	if(turn % 2 === 0){
-		target.removeEventListener('click', cellClicked);
 		setTimeout(compGuess, 1500);
 	}
 	if(playerHits === 6){
@@ -93,6 +93,7 @@ function cellClicked(elementId){
 		endGame();
 	}
 	turn += 1;
+	console.log(target);
 };
 
 
@@ -100,9 +101,13 @@ var opposerShips = [1, 2, 3];
 
 var endGame = function(){
 	opponentBoardContainer.removeEventListener("click", playerClickHandler);
-	// playerBoardContainer.removeEventListener("click", cellClicked);
-	$("#opponent-board").empty();
-	$("#player-board").empty();
+	$("#log").append("<button id='restart'>New Game?</button>");
+	document.getElementById("restart").addEventListener("click", reset);
+}
+
+var reset = function(){
+	console.log("resetting");
+	window.location.reload();
 }
 
 function randomize(){
@@ -119,7 +124,7 @@ function randomize(){
 			var hor = document.getElementById("c"+(parseInt(stringNum)+10));
 			hor.className += " filled";
 		}
-	console.log(randomOrientation);
+		console.log(randomOrientation);
 	}
 		
 }
@@ -187,12 +192,14 @@ var removeClicks = function(){
 
 //REMOVE EVENT HANDLER FOR OP BOARD
 var playerClick = function(){ 
-	opponentBoardContainer.addEventListener("click", playerClickHandler);
+	$("div", "#opponent-board").each(function(){
+	this.addEventListener("click", playerClickHandler);
+
+});
+	// opponentBoardContainer.addEventListener("click", playerClickHandler);
 }
 
-
 var compGuess = function() {
-	//error checking?
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
 
