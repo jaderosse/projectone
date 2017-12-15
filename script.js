@@ -14,7 +14,6 @@ for(var i = 0; i < opRows; i++){
 	for(var j = 0; j < opColumns; j++){
 		var cell = document.createElement("div");
 		opponentBoardContainer.insertBefore(cell, document.getElementById("op-ship"));
-		cell.className = "badcells";
 		cell.id = "c" + (i+1) + (j+1);
 
 		var topPosition = j * cellSize;
@@ -52,30 +51,42 @@ for(var i = 0; i < playerRows; i++){
 function playerClickHandler(e){
 	if (turn % 2 === 0){
 		cellClicked(e.target.id);
+		console.log(e.target.id);
 	}
 }
 
 
 function cellClicked(elementId){
-	var target = document.getElementById(elementId);	
-	if(target.classList.contains("filled")){
-		console.log("hit ya bitch");
-		target.style.background = "red";
-		// compHits += 1;
-	} else {
-		console.log("missed you");
-		target.style.background = "green";
-	}
-
-
+	var target = document.getElementById(elementId);
+	//player hit	
 	if(turn % 2 === 0){
-		console.log(target);
-		opponentBoardContainer.removeEventListener("click", function(){console.log('out')});
+			if(target.classList.contains("filled")){
+			console.log("player got you");
+			target.style.background = "red";
+			playerHits += 1;
+			console.log(playerHits);
+		} else {
+			console.log("missed computer");
+			target.style.background = "green";
+		}
+	} else {
+			if(target.classList.contains("filled")){
+			console.log("computer got you");
+			target.style.background = "red";
+			compHits += 1;
+		} else {
+			console.log("missed player one");
+			target.style.background = "green";
+		}
+	}
+//REMOVE EVENT HANDLER FOR OP BOARD
+	if(turn % 2 === 0){
+		target.removeEventListener('click', cellClicked);
 		setTimeout(compGuess, 1500);
 	}
-
 	turn += 1;
 };
+
 
 var opposerShips = [1, 2, 3];
 
@@ -124,19 +135,16 @@ var removeClicks = function(){
 		for(var i = 0; i < playerCells.length; i++){
 			playerCells[i].removeEventListener("click", createShip)
 			playerClick();
-		}	
+
+		}
+		randomize();
 	}
 }
 
-//just trying to remove event listeners for bad cells
-var badCells = document.querySelectorAll(".badcells");
-
+//REMOVE EVENT HANDLER FOR OP BOARD
 var playerClick = function(){ 
-
-	// for(var i = 0; i < badCells[i]; i++){
-	opponentBoardContainer.addEventListener("click", function(){console.log("clickertracker")});
+	opponentBoardContainer.addEventListener("click", playerClickHandler);
 }
-
 
 
 var compGuess = function() {
@@ -144,9 +152,17 @@ var compGuess = function() {
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
 
-
+// var winner = function(){
+// 	if(playerHits === 6){
+// 		alert("you win");
+// 	} else if(compHits === 6){
+// 		alert("you got yo ass beat by a computer");
+// 	}
+// }
 
 $(playerCells).unbind("mouseenter mouseleave");
+
+
 
 
 
