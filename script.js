@@ -61,21 +61,21 @@ function cellClicked(elementId){
 	//player hit	
 	if(turn % 2 === 0){
 			if(target.classList.contains("filled")){
-			console.log("player got you");
 			target.style.background = "red";
 			playerHits += 1;
-			console.log(playerHits);
+			// console.log(playerHits);
+			$("#log").text("you got a hit!");
 		} else {
-			console.log("missed computer");
 			target.style.background = "green";
+			$("#log").text("you missed.");
 		}
 	} else {
 			if(target.classList.contains("filled")){
-			console.log("computer got you");
+			$("#log").text("you've been hit!");
 			target.style.background = "red";
 			compHits += 1;
 		} else {
-			console.log("missed player one");
+			$("#log").text("crisis averted.");
 			target.style.background = "green";
 		}
 	}
@@ -84,13 +84,26 @@ function cellClicked(elementId){
 		target.removeEventListener('click', cellClicked);
 		setTimeout(compGuess, 1500);
 	}
+	if(playerHits === 6){
+		$("#log").text("You won!!!");
+		endGame();
+	}
+	if(compHits === 6){
+		$("#log").text("You lost to a computer.");
+		endGame();
+	}
 	turn += 1;
 };
 
 
 var opposerShips = [1, 2, 3];
 
-
+var endGame = function(){
+	opponentBoardContainer.removeEventListener("click", playerClickHandler);
+	// playerBoardContainer.removeEventListener("click", cellClicked);
+	$("#opponent-board").empty();
+	$("#player-board").empty();
+}
 
 function randomize(){
 	for(var i = 0; i < opposerShips.length; i++){
@@ -143,7 +156,7 @@ var createShip = function(){
 	//click events for buttons
 		document.getElementById("V").addEventListener("click", clickedVert);
 		document.getElementById("H").addEventListener("click", clickedHor);
-		
+
 	function clickedVert(){
 		console.log("ya want vertical");	
 		var vert = document.getElementById("s"+(parseInt(stringNum)+1));
@@ -183,14 +196,7 @@ var compGuess = function() {
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
 
-//winning condition
-// var winner = function(){
-// 	if(playerHits === 6){
-// 		alert("you win");
-// 	} else if(compHits === 6){
-// 		alert("you got yo ass beat by a computer");
-// 	}
-// }
+
 
 $(playerCells).unbind("mouseenter mouseleave");
 
