@@ -1,5 +1,8 @@
 body {
 	text-align: center;
+	background-image: url(https://thumbs.gfycat.com/BlankBelovedBubblefish-size_restricted.gif);
+	background-size: cover;
+	font-family: 'Bungee', cursive;
 }
 #opponent-board, 
 #player-board {
@@ -18,14 +21,24 @@ div {
 	border: 1px solid #ddd;
 	width:50px;
 	height:50px;
+	opacity: 0.8;
 }
 
-/*#ship {
-	background-color: blue;
-	height: 50px;
-	width: 50px;
-}*/
 img {
 	height: 50px;
 	width: 50px;
+}
+#log {
+	height: 200px;
+	width: 200px;
+	margin-left: 100px;
+}
+h1{
+	color: #F5F2E3;
+}
+button{
+	width: 100px;
+	height: 50px;
+	background-color: #65db32;
+	margin: 10px 30px;
 }

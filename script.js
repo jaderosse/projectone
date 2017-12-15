@@ -7,8 +7,16 @@ var opColumns = 8;
 var cellSize = 50;
 var opHits = 0;
 var turn = 0;
-
 var opponentBoardContainer = document.getElementById("opponent-board");
+
+var playerRows = 8;
+var playerColumns = 8;
+var cellSize = 50;
+var playerHits = 0;
+var playerBoardContainer = document.getElementById("player-board");
+
+var playerShips = 0;
+var playerCells = document.querySelectorAll(".cells");
 
 for(var i = 0; i < opRows; i++){
 	for(var j = 0; j < opColumns; j++){
@@ -23,15 +31,6 @@ for(var i = 0; i < opRows; i++){
 		cell.style.left = leftPosition + 'px';	
 	}
 }
-
-
-var playerRows = 8;
-var playerColumns = 8;
-var cellSize = 50;
-var playerHits = 0;
-
-var playerBoardContainer = document.getElementById("player-board");
-var randomButton = document.getElementById("rando");
 
 for(var i = 0; i < playerRows; i++){
 	for(var j = 0; j < playerColumns; j++){
@@ -54,10 +53,8 @@ function playerClickHandler(e){
 	}
 }
 
-
 function cellClicked(elementId){
-	var target = document.getElementById(elementId);
-	//player hit	
+	var target = document.getElementById(elementId);	
 	if(turn % 2 === 0){
 			if(target.classList.contains("filled")){
 			target.style.background = "red";
@@ -65,7 +62,7 @@ function cellClicked(elementId){
 			$("#log").text("you got a hit!");
 			target.removeEventListener("click", playerClickHandler);
 		} else {
-			target.style.background = "green";
+			target.style.background = "grey";
 			$("#log").text("you missed.");
 			target.removeEventListener("click", playerClickHandler);
 		}
@@ -76,35 +73,29 @@ function cellClicked(elementId){
 			compHits += 1;
 		} else {
 			$("#log").text("crisis averted.");
-			target.style.background = "green";
+			target.style.background = "grey";
 		}
 	}
 	if(turn % 2 === 0){
 		setTimeout(compGuess, 1500);
 	}
-	if(playerHits === 6){
+	if(playerHits === 7){
 		$("#log").text("You won!!!");
 		endGame();
 	}
-	if(compHits === 6){
+	if(compHits === 7){
 		$("#log").text("You lost to a computer.");
 		endGame();
 	}
 	turn += 1;
-	console.log(target);
 };
-
 
 var ships = [
 {name: "kayak"},
 {name: "kayak"},
-{name: "modest-yacht"},
-// {name: "Edmonds-Kingston-Ferry"}
+{name: "Edmonds-Kingston-Ferry"}
 ];
 
-// if(ships.name === modest-yacht){
-
-// }
 
 var endGame = function(){
 	$("div", "#opponent-board").each(function(){
@@ -115,7 +106,6 @@ var endGame = function(){
 }
 
 var reset = function(){
-	console.log("resetting");
 	window.location.reload();
 }
 
@@ -124,31 +114,32 @@ function randomize(){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1));
 		startingPoint.className += " filled";
 		var stringNum = startingPoint.id.slice(-2);
-		console.log(startingPoint);
+		// console.log(startingPoint);
 		var randomOrientation = Math.floor(Math.random()*2)+1;
 		if(randomOrientation % 2 === 0){
 			var vert = document.getElementById("c"+(parseInt(stringNum)+01));
 			vert.className += " filled";
-				if(ships[i].name === "modest-yacht"){
-					// console.log("modest yacht");
+				if(ships[i].name === "Edmonds-Kingston-Ferry"){
 					var moreVert = document.getElementById("c"+(parseInt(stringNum)+02));
 					moreVert.className += " filled";
 				}
 		} else {
 			var hor = document.getElementById("c"+(parseInt(stringNum)+10));
 			hor.className += " filled";
-					if(ships[i].name === "modest-yacht"){
-					// console.log("modest yacht");
+					if(ships[i].name === "Edmonds-Kingston-Ferry"){
 					var moreHor = document.getElementById("c"+(parseInt(stringNum)+20));
 					moreHor.className += " filled";
 				}
 		}
-		console.log(randomOrientation);
+		if(startingPoint.className === " filled filled"){
+			console.log("new field");
+			$("div", "#opponent-board").each(function(){
+			this.className = "";
+		})
+		randomize();
 	}
-		
 }
-
-
+}
 
 $(".cells").hover(function(){
 	$(this).css("background-color", "yellow");
@@ -156,8 +147,7 @@ $(".cells").hover(function(){
 	$(this).css("background-color", "transparent");
 });
 
-var playerShips = 0;
-var playerCells = document.querySelectorAll(".cells");
+
 
 function selectForShip(){
 	for(var i = 0; i < playerCells.length; i++){
@@ -175,15 +165,12 @@ var createShip = function(){
 	$(this).unbind("mouseenter mouseleave");
 	this.className += " filled";
 	var stringNum = this.id.slice(-2);
-	//appending buttons to div
-	$("#log").text("how to orient your ship?").append("<button id='H'>horizontal</button>")
+	$("#log").text("How would you like to orient your boat?").append("<button id='H'>horizontal</button>")
 	.append("<button id='V'>vertical</button>");
-	//click events for buttons
 		document.getElementById("V").addEventListener("click", clickedVert);
 		document.getElementById("H").addEventListener("click", clickedHor);
 
-	function clickedVert(){
-		console.log("ya want vertical");	
+	function clickedVert(){	
 		var vert = document.getElementById("s"+(parseInt(stringNum)+1));
 		vert.className += " filled";
 		vert.style.backgroundColor = "blue";
@@ -193,6 +180,7 @@ var createShip = function(){
 			moreVert.className += " filled";
 			moreVert.style.backgroundColor = "blue";
 			$(moreVert).unbind("mouseenter mouseleave");
+			$("#log").text("Click Opponent's Board to attack!");
 		}
 	}
 	function clickedHor(){
@@ -205,6 +193,7 @@ var createShip = function(){
 			moreHor.className += " filled";
 			moreHor.style.backgroundColor = "blue";
 			$(moreHor).unbind("mouseenter mouseleave");
+			$("#log").text("Click Opponent's Board to attack!");
 		}
 	}
 	removeClicks();
@@ -219,20 +208,18 @@ var removeClicks = function(){
 		}
 		$(playerCells).unbind("mouseenter mouseleave");
 		randomize();
-	}
+	}	
 }
 
 var playerClick = function(){ 
 	$("div", "#opponent-board").each(function(){
 	this.addEventListener("click", playerClickHandler);
-
-});
+	});
 }
 
 var compGuess = function() {
 	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
 }
-
 
 selectForShip();
 });
