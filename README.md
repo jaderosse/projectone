@@ -23,8 +23,8 @@
 # Raw Layout
 
 ## Grid Boards 
-![AI Board](./img/Screenshots/Raw-warboat.png)
-![Player Board](./img/Screenshots/raw-your-board.png)
+![AI Board](img/Screenshots/Raw-warboat.png)
+![Player Board](img/Screenshots/raw-your-board.png)
 
 # Strategies
 * Grids are composed of clickable divs, each with unique ID
