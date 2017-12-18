@@ -9,7 +9,7 @@
 * Use semantic markup for HTML and CSS (adhere to best practices)
 
 
-#Stretch Goals and Pseudocode
+# Stretch Goals and Pseudocode
 * Player vs AI
 	* Random AI square select
 	* Random placement of AI ships
@@ -40,13 +40,19 @@
 ![Full Site](imgs/Screenshots/Full-site.png)
 ![Helper Div](imgs/Screenshots/Ship-option.png)
 ![Game Start](imgs/Screenshots/Ships-placed.png)
+![Got a hit](imgs/Screenshots/Got-hit.png)
 
 # Challenges 
 * Removing event listeners to prevent double clicks
 * Adding ship of another size
 * AI ship placement randomization
 
-#What I'd Do With More Time
+# What I'd Do With More Time
 * Add customization/difficulty level with option of more boats with different sizes
 * Give the boats names and have Helper Div specify which boat was hit/sunk
 * Make AI smarter
+
+# What I've Learned
+* How to better utilize jquery
+* Breaking down complex algorithms into manageable steps
+* Efficient Googling!
