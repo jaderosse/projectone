@@ -65,21 +65,23 @@ function cellClicked(elementId){
 			if(target.classList.contains("filled")){
 			target.style.background = "red";
 			playerHits += 1;
-			$("#log").text("you got a hit!");
+			$("#log").text("You got a hit!");
 			target.removeEventListener("click", playerClickHandler);
 		} else {
 			target.style.background = "grey";
-			$("#log").text("you missed.");
+			$("#log").text("You missed.");
 			target.removeEventListener("click", playerClickHandler);
 		}
 	} else {
-			if(target.classList.contains("filled")){
-			$("#log").text("you've been hit!");
+			if(target.classList.contains("cellsfilled")){
+			$("#log").text("You've been hit!");
 			target.style.background = "red";
 			compHits += 1;
+			console.log(compHits);
+			console.log(target);
 			// blink();
 		} else {
-			$("#log").text("crisis averted.");
+			$("#log").text("Crisis averted.");
 			target.style.background = "grey";
 		}
 	}
@@ -95,6 +97,7 @@ function cellClicked(elementId){
 		endGame();
 	}
 	turn += 1;
+	// stopColor();
 };
 
 var ships = [
@@ -118,26 +121,26 @@ var reset = function(){
 function randomize(){
 	for(var i = 0; i < ships.length; i++){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1));
-		startingPoint.className += " filled";
+		startingPoint.className += "filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
 		var randomOrientation = Math.floor(Math.random()*2)+1;
 		if(randomOrientation % 2 === 0){
 			var vert = document.getElementById("c"+(parseInt(stringNum)+01));
-			vert.className += " filled";
+			vert.className += "filled";
 				if(ships[i].name === "Edmonds-Kingston-Ferry"){
 					var moreVert = document.getElementById("c"+(parseInt(stringNum)+02));
-					moreVert.className += " filled";
+					moreVert.className += "filled";
 				}
 		} else {
 			var hor = document.getElementById("c"+(parseInt(stringNum)+10));
-			hor.className += " filled";
+			hor.className += "filled";
 					if(ships[i].name === "Edmonds-Kingston-Ferry"){
 					var moreHor = document.getElementById("c"+(parseInt(stringNum)+20));
-					moreHor.className += " filled";
+					moreHor.className += "filled";
 				}
 		}
-		if(startingPoint.className === " filled filled"){
+		if(startingPoint.className === "filled filled"){
 			console.log("new field");
 			$("div", "#opponent-board").each(function(){
 			this.className = "";
@@ -167,7 +170,7 @@ var createShip = function(){
 	var bigShip = (playerShips === 3);
 	$(this).css("background-color", "blue");
 	$(this).unbind("mouseenter mouseleave");
-	this.className += " filled";
+	this.className += "filled";
 	var stringNum = this.id.slice(-2);
 	var buttonPrompt = function(){
 		$("#log").text("How would you like to orient your boat?").append("<button id='H'>horizontal</button>")
@@ -179,30 +182,28 @@ var createShip = function(){
 
 	function clickedVert(){	
 		var vert = document.getElementById("s"+(parseInt(stringNum)+1));
-		vert.className += " filled";
+		vert.className += "filled";
 		vert.style.backgroundColor = "blue";
 		$(vert).unbind("mouseenter mouseleave");
-		// $("#log").text("Kayak has been placed. Click again");
 		if(bigShip){
 			var moreVert = document.getElementById("s"+(parseInt(stringNum)+2));
-			moreVert.className += " filled";
+			moreVert.className += "filled";
 			moreVert.style.backgroundColor = "blue";
 			$(moreVert).unbind("mouseenter mouseleave");
-			$("#log").text("Edmonds-Kingston Ferry has been placed. Click Opponent's Board to attack!");
+			$("#log").text("All your boats have been placed. Click Opponent's Board to attack!");
 		}
 	}
 	function clickedHor(){
 		var hor = document.getElementById("s"+(parseInt(stringNum)+10));
-		hor.className += " filled";
+		hor.className += "filled";
 		hor.style.backgroundColor = "blue";
 		$(hor).unbind("mouseenter mouseleave");
-		// $("#log").text("Kayak has been placed.").fadeOut(100).fadeIn(500, buttonPrompt);
 		if(bigShip){
 			var moreHor = document.getElementById("s"+(parseInt(stringNum)+20));
-			moreHor.className += " filled";
+			moreHor.className += "filled";
 			moreHor.style.backgroundColor = "blue";
 			$(moreHor).unbind("mouseenter mouseleave");
-			$("#log").text("Edmonds-Kingston Ferry has been placed. Click Opponent's Board to attack!");
+			$("#log").text("All your boats have been placed. Click Opponent's Board to attack!");
 		}
 	}
 	removeClicks();
