@@ -23,7 +23,7 @@
 # Raw Layout
 
 ## Grid Boards 
-![AI Board](projectone/imgs/Screenshots/Raw-warboat.png)
+![AI Board](imgs/Screenshots/Raw-warboat.png)
 ![Player Board](imgs/Screenshots/raw-your-board.png)
 
 # Strategies
@@ -37,9 +37,9 @@
 * Winner goes to player or computer that reaches 7 hits first.
 
 # Finished Layout
-![Full Site](./img/Screenshots/Full-site.png)
-![Helper Div](./img/Screenshots/Ship-option.png)
-![Game Start](./img/Screenshots/Ships-placed.png)
+![Full Site](imgs/Screenshots/Full-site.png)
+![Helper Div](imgs/Screenshots/Ship-option.png)
+![Game Start](imgs/Screenshots/Ships-placed.png)
 
 # Challenges 
 * Removing event listeners to prevent double clicks
