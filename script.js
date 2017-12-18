@@ -15,6 +15,7 @@ var cellSize = 50;
 var playerHits = 0;
 var playerBoardContainer = document.getElementById("player-board");
 
+//creating unique id's for opponent board
 for(var i = 0; i < opRows; i++){
 	for(var j = 0; j < opColumns; j++){
 		var cell = document.createElement("div");
@@ -28,7 +29,7 @@ for(var i = 0; i < opRows; i++){
 		cell.style.left = leftPosition + 'px';	
 	}
 }
-
+//unique id's for player board
 for(var i = 0; i < playerRows; i++){
 	for(var j = 0; j < playerColumns; j++){
 		var cell = document.createElement("div");
@@ -43,25 +44,29 @@ for(var i = 0; i < playerRows; i++){
 		cell.style.left = leftPosition + 'px';	
 	}
 }
-
+//even turns are player(player starts)
 function playerClickHandler(e){
 	if (turn % 2 === 0){
 		cellClicked(e.target.id);
 	}
 }
-
-// var blink = setInterval(function(){ setColor() }, 1000);
-// function setColor(){
-// 	var x = document.getElementById("log")
-// 	x.style.backgroundColor = x.style.backgroundColor == "red" ? "white" : "red";
-// }
-// function stopColor(){
-// 	clearInterval(blink);
-// }
-
+//blinks red when hit
+var blink;
+function setColor(){
+	var x = document.getElementById("log")
+	x.style.backgroundColor = x.style.backgroundColor == "red" ? "white" : "red";
+}
+function stopColor(){
+	clearInterval(blink);
+	var x = document.getElementById("log")
+	x.style.backgroundColor = "white";
+}
+//checks occupancy of cells for score
 function cellClicked(elementId){
-	var target = document.getElementById(elementId);	
+	var target = document.getElementById(elementId);
+	//player score	
 	if(turn % 2 === 0){
+		stopColor();
 			if(target.classList.contains("filled")){
 			target.style.background = "red";
 			playerHits += 1;
@@ -72,6 +77,7 @@ function cellClicked(elementId){
 			$("#log").text("You missed.");
 			target.removeEventListener("click", playerClickHandler);
 		}
+	//computer score
 	} else {
 			if(target.classList.contains("cellsfilled")){
 			$("#log").text("You've been hit!");
@@ -79,12 +85,13 @@ function cellClicked(elementId){
 			compHits += 1;
 			console.log(compHits);
 			console.log(target);
-			// blink();
+			blink = setInterval(setColor, 1000);
 		} else {
 			$("#log").text("Crisis averted.");
 			target.style.background = "grey";
 		}
 	}
+	//delayed computer turn after player 
 	if(turn % 2 === 0){
 		setTimeout(compGuess, 2000);
 	}
@@ -97,7 +104,6 @@ function cellClicked(elementId){
 		endGame();
 	}
 	turn += 1;
-	// stopColor();
 };
 
 var ships = [
@@ -117,18 +123,20 @@ var endGame = function(){
 var reset = function(){
 	window.location.reload();
 }
-
+//picks random starting point for computer ships
 function randomize(){
 	for(var i = 0; i < ships.length; i++){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1));
 		startingPoint.className += "filled";
 		var stringNum = startingPoint.id.slice(-2);
 		console.log(startingPoint);
+		//randomize whether ship is horizonta/vertical
 		var randomOrientation = Math.floor(Math.random()*2)+1;
 		if(randomOrientation % 2 === 0){
 			var vert = document.getElementById("c"+(parseInt(stringNum)+01));
 			vert.className += "filled";
 				if(ships[i].name === "Edmonds-Kingston-Ferry"){
+					//for third ship determined by name
 					var moreVert = document.getElementById("c"+(parseInt(stringNum)+02));
 					moreVert.className += "filled";
 				}
@@ -140,6 +148,7 @@ function randomize(){
 					moreHor.className += "filled";
 				}
 		}
+		//prevents duplication of starting point
 		if(startingPoint.className === "filled filled"){
 			console.log("new field");
 			$("div", "#opponent-board").each(function(){
@@ -150,6 +159,7 @@ function randomize(){
 }
 }
 
+//hover function for ship selection
 $(".cells").hover(function(){
 	$(this).css("background-color", "yellow");
 }, function(){
@@ -159,12 +169,14 @@ $(".cells").hover(function(){
 var playerShips = 0;
 var playerCells = document.querySelectorAll(".cells");
 
+//add click event to all player cells to select
 function selectForShip(){
 	for(var i = 0; i < playerCells.length; i++){
 		playerCells[i].addEventListener("click", createShip);
 	}
 }
 
+//based on player selection
 var createShip = function(){
 	playerShips += 1;
 	var bigShip = (playerShips === 3);
@@ -172,10 +184,12 @@ var createShip = function(){
 	$(this).unbind("mouseenter mouseleave");
 	this.className += "filled";
 	var stringNum = this.id.slice(-2);
+	//Create buttons in helper div for orientation
 	var buttonPrompt = function(){
 		$("#log").text("How would you like to orient your boat?").append("<button id='H'>horizontal</button>")
 		.append("<button id='V'>vertical</button>");
 	}
+	//creating click events for buttons
 	buttonPrompt();
 		document.getElementById("V").addEventListener("click", clickedVert);
 		document.getElementById("H").addEventListener("click", clickedHor);
@@ -185,6 +199,7 @@ var createShip = function(){
 		vert.className += "filled";
 		vert.style.backgroundColor = "blue";
 		$(vert).unbind("mouseenter mouseleave");
+		//if it is on ship 3 i.e. biggest ship run this function
 		if(bigShip){
 			var moreVert = document.getElementById("s"+(parseInt(stringNum)+2));
 			moreVert.className += "filled";
@@ -209,6 +224,7 @@ var createShip = function(){
 	removeClicks();
 }
 
+//remove click function for player board to start game
 var removeClicks = function(){
 	if(playerShips === 3){
 		console.log(playerShips);
@@ -221,15 +237,25 @@ var removeClicks = function(){
 	}	
 }
 
+//empty object to store which cells comp has clicked
+var compGuessSlots = {};
+
+//add click event to all cells on opponent board
 var playerClick = function(){ 
 	$("div", "#opponent-board").each(function(){
 	this.addEventListener("click", playerClickHandler);
-
-});
+	});
 }
 
+//ensures computer doesn't guess the same cell twice
 var compGuess = function() {
-	cellClicked("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
+	var computerGuess = ("s"+(Math.floor(Math.random()*7)+1) + (Math.floor(Math.random()*7)+1));
+	if(compGuessSlots[computerGuess] !== true){
+		compGuessSlots[computerGuess] = true;
+		cellClicked(computerGuess)
+	} else {
+		compGuess();
+	}
 }
 
 selectForShip();
