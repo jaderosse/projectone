@@ -20,10 +20,9 @@
 * Text div, background and content changes with hits
 * Radar animation in background with stop button
 
-# Raw Layout
-
-## Grid Boards 
+# Raw Layout 
 ![AI Board](imgs/Screenshots/Raw-warboat.png)
+
 ![Player Board](imgs/Screenshots/raw-your-board.png)
 
 # Strategies
@@ -38,8 +37,11 @@
 
 # Finished Layout
 ![Full Site](imgs/Screenshots/Full-site.png)
+
 ![Helper Div](imgs/Screenshots/Ship-option.png)
+
 ![Game Start](imgs/Screenshots/Ships-placed.png)
+
 ![Got a hit](imgs/Screenshots/Got-hit.png)
 
 # Challenges 
