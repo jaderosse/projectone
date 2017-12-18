@@ -11,9 +11,9 @@
 
 #Stretch Goals and Pseudocode
 * Player vs AI
-** Random AI square select
-** Random placement of AI ships
-** If AI gets hit, next turn select left, right, up, or down from hit
+	* Random AI square select
+	* Random placement of AI ships
+	* If AI gets hit, next turn select left, right, up, or down from hit
 * Drag and drop pieces to choose position
 * Hover function to show square selection
 * If..then statement for red and white pieces (hit or miss)
@@ -46,3 +46,7 @@
 * Adding ship of another size
 * AI ship placement randomization
 
+#What I'd Do With More Time
+* Add customization/difficulty level with option of more boats with different sizes
+* Give the boats names and have Helper Div specify which boat was hit/sunk
+* Make AI smarter
