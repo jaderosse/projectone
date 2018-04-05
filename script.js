@@ -15,6 +15,7 @@ var cellSize = 50;
 var playerHits = 0;
 var playerBoardContainer = document.getElementById("player-board");
 
+
 //creating unique id's for opponent board
 for(var i = 0; i < opRows; i++){
 	for(var j = 0; j < opColumns; j++){
@@ -61,6 +62,7 @@ function stopColor(){
 	var x = document.getElementById("log")
 	x.style.backgroundColor = "white";
 }
+
 //checks occupancy of cells for score
 function cellClicked(elementId){
 	var target = document.getElementById(elementId);
@@ -72,22 +74,20 @@ function cellClicked(elementId){
 			playerHits += 1;
 			$("#log").text("You got a hit!");
 			target.removeEventListener("click", playerClickHandler);
-		} else {
+			} else {
 			target.style.background = "grey";
 			$("#log").text("You missed.");
 			target.removeEventListener("click", playerClickHandler);
-		}
+			}
 	//computer score
 	} else {
 			if(target.classList.contains("cellsfilled")){
-			$("#log").text("You've been hit!");
+			$("#log").text("You've been hit! Fire back.");
 			target.style.background = "red";
 			compHits += 1;
-			console.log(compHits);
-			console.log(target);
 			blink = setInterval(setColor, 1000);
-		} else {
-			$("#log").text("Crisis averted.");
+			} else {
+			$("#log").text("Crisis averted. Your turn.");
 			target.style.background = "grey";
 		}
 	}
@@ -129,7 +129,6 @@ function randomize(){
 		var startingPoint = document.getElementById("c"+(Math.floor(Math.random()*6)+1) + (Math.floor(Math.random()*6)+1));
 		startingPoint.className += "filled";
 		var stringNum = startingPoint.id.slice(-2);
-		console.log(startingPoint);
 		//randomize whether ship is horizonta/vertical
 		var randomOrientation = Math.floor(Math.random()*2)+1;
 		if(randomOrientation % 2 === 0){
@@ -149,7 +148,7 @@ function randomize(){
 				}
 		}
 		//prevents duplication of starting point
-		if(startingPoint.className === "filled filled"){
+		if(startingPoint.className === "filledfilled"){
 			console.log("new field");
 			$("div", "#opponent-board").each(function(){
 			this.className = "";
@@ -206,6 +205,8 @@ var createShip = function(){
 			moreVert.style.backgroundColor = "blue";
 			$(moreVert).unbind("mouseenter mouseleave");
 			$("#log").text("All your boats have been placed. Click Opponent's Board to attack!");
+		} else {
+			$("#log").text("Pick a position for next boat");
 		}
 	}
 	function clickedHor(){
@@ -219,6 +220,8 @@ var createShip = function(){
 			moreHor.style.backgroundColor = "blue";
 			$(moreHor).unbind("mouseenter mouseleave");
 			$("#log").text("All your boats have been placed. Click Opponent's Board to attack!");
+		} else {
+			$("#log").text("Pick a position for next boat");			
 		}
 	}
 	removeClicks();

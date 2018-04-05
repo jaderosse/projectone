@@ -13,6 +13,10 @@ body {
 	height: 400px;
 }
 
+h3 {
+	color: #F5F2E3;
+}
+
 div {
 	position: absolute;
 	-webkit-box-sizing: border-box; 
@@ -32,21 +36,35 @@ img {
 #log {
 	height: 200px;
 	width: 200px;
-	margin-left: 100px;
+	margin-left: 5%;
 	border-radius: 25px;
-	padding-top: 10px;
-	padding-bottom: 10px;
 }
+
 h1{
 	color: #F5F2E3;
 	background-color: black;
 	max-width: 400px;
-	position: relative;
-	margin-left: 36%
+	margin: 0 auto;
 }
+
 button{
 	width: 100px;
 	height: 50px;
 	background-color: #65db32;
 	margin: 5px 30px;
+}
+
+@media screen and (max-width: 970px){
+	#player-board {
+		margin-top: 300px;
+	}
+
+	#log {
+		margin-left: 37%;
+	}
+}
+@media screen and (max-width: 440px){
+	#log {
+		margin-left: 25%;
+	}
 }
